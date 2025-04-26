@@ -3,6 +3,7 @@ import 'package:school_app/constants/constants.dart';
 import 'package:school_app/constants/themeprovider.dart';
 import 'package:school_app/student/auth/login/login.dart';
 import 'package:provider/provider.dart';
+import 'package:school_app/student/navbar/bottomnavigation.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -18,12 +19,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<Themeprovider>(context);
     return MaterialApp(
-      theme: ThemeData.light(), 
+      theme: ThemeData.light(),
       themeMode: themeProvider.currentMode,
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.teal[900], 
-        primaryColor: Colors.blueGrey[700],
+        scaffoldBackgroundColor: Colors.blueGrey[900],
+        primaryColor: Colors.white,
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.blueGrey[800],
         ),
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           secondary: Colors.lightBlueAccent,
         ),
       ),
-      home: LoginScreen(),
+      home: BottomnavigationBar(),
     );
   }
 }
