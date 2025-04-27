@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:school_app/constants/constants.dart';
+import 'package:school_app/auth/login/login.dart';
+import 'package:school_app/auth/service/login_provider.dart';
 import 'package:school_app/constants/themeprovider.dart';
-import 'package:school_app/student/auth/login/login.dart';
 import 'package:provider/provider.dart';
 import 'package:school_app/student/navbar/bottomnavigation.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (_) => Themeprovider(),
-    ),
+    ChangeNotifierProvider(create: (_) => Themeprovider()),
+    ChangeNotifierProvider(create:(_) => LoginProvider())
   ], child: MyApp()));
 }
 
@@ -33,7 +32,7 @@ class MyApp extends StatelessWidget {
           secondary: Colors.lightBlueAccent,
         ),
       ),
-      home: BottomnavigationBar(),
+      home: LoginScreen(),
     );
   }
 }

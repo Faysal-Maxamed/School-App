@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:school_app/auth/service/login_provider.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/constants/themeprovider.dart';
-import 'package:school_app/student/home/student_home.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
   Widget build(BuildContext context) {
     final themeprovider = context.read<Themeprovider>();
+    final loginProvider = context.read<LoginProvider>();
+    List Roles = ["Admin", "Teacher", "Student"];
+    TextEditingController IdController = TextEditingController();
+    TextEditingController FullNameController = TextEditingController();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -24,7 +33,7 @@ class LoginScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: themeprovider.isdarkmode ? primaryColor : Colors.black,
+                color: themeprovider.isdarkmode ? primaryColor : Colors.green,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(55),
                   topLeft: Radius.circular(55),
@@ -64,6 +73,8 @@ class LoginScreen extends StatelessWidget {
                         border: Border.all(color: Colors.white, width: 1),
                       ),
                       child: TextFormField(
+                        controller: IdController,
+                        onChanged: (value) => loginProvider.setId(value),
                         decoration: InputDecoration(
                           hintText: "Enter Your ID",
                           hintStyle: GoogleFonts.poppins(color: Colors.white),
@@ -84,6 +95,8 @@ class LoginScreen extends StatelessWidget {
                         border: Border.all(color: Colors.white, width: 1),
                       ),
                       child: TextFormField(
+                        // controller: FullNameController,
+                        onChanged: (value) => loginProvider.setId(value),
                         decoration: InputDecoration(
                           hintText: "Enter Your Password",
                           hintStyle: GoogleFonts.poppins(
@@ -93,6 +106,24 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    DropdownButton(
+                      hint: Text("Select Role"),
+                      value: loginProvider.role,
+                      items: Roles.map(
+                        (Role) => DropdownMenuItem(
+                          value: Role,
+                          child: Text("${Role}"),
+                        ),
+                      ).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          loginProvider.setRole(value);
+                        });
+                      },
                     ),
                     SizedBox(
                       height: 20,
@@ -109,10 +140,7 @@ class LoginScreen extends StatelessWidget {
                       height: 70,
                     ),
                     ElevatedButton(
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => StudentHomeScreen())),
+                        onPressed: () => loginProvider.Login(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: secondaryColor,
                           foregroundColor: Colors.white,
