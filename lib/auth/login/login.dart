@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: TextFormField(
                         // controller: FullNameController,
-                        onChanged: (value) => loginProvider.setId(value),
+                        onChanged: (value) => loginProvider.setPassword(value),
                         decoration: InputDecoration(
                           hintText: "Enter Your Password",
                           hintStyle: GoogleFonts.poppins(
