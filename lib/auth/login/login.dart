@@ -25,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: [
             Container(
+              color: Colors.amber,
               height: 200,
               child: Center(
                 child: Image.asset("images/logo.png"),
@@ -95,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         border: Border.all(color: Colors.white, width: 1),
                       ),
                       child: TextFormField(
+                        obscureText: true,
                         // controller: FullNameController,
                         onChanged: (value) => loginProvider.setPassword(value),
                         decoration: InputDecoration(
