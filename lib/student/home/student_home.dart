@@ -10,7 +10,6 @@ class StudentHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFBFBFB),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(

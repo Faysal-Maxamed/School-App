@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:school_app/admin/admin_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:school_app/auth/model/login_model.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/student/navbar/bottomnavigation.dart';
 import 'package:school_app/teacher/Home/teacher_home.dart';
@@ -11,6 +12,9 @@ class LoginProvider extends ChangeNotifier {
   String? _Id;
   String? _password;
   String? _role;
+  LoginModel? user;
+
+  bool issloading = false;
 
   String? get Id => _Id;
   String? get password => _password;
@@ -32,6 +36,8 @@ class LoginProvider extends ChangeNotifier {
   }
 
   void Login(BuildContext context) async {
+    issloading = true;
+    notifyListeners();
     try {
       var date = {
         "Id": Id,
@@ -47,6 +53,9 @@ class LoginProvider extends ChangeNotifier {
       print(response.body);
 
       if (response.statusCode == 200) {
+        var decodedate = jsonDecode(response.body);
+        user = LoginModel.fromJson(decodedate);
+        print(user!.fullName);
         if (role == "Student") {
           Navigator.push(
             context,
@@ -83,6 +92,9 @@ class LoginProvider extends ChangeNotifier {
         ),
       );
       print(errors);
+    } finally {
+      issloading = false;
+      notifyListeners();
     }
   }
 }
