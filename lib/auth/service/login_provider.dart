@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:school_app/admin/admin_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:school_app/auth/model/login_model.dart';
@@ -13,6 +14,7 @@ class LoginProvider extends ChangeNotifier {
   String? _password;
   String? _role;
   LoginModel? user;
+  final box = GetStorage();
 
   bool issloading = false;
 
@@ -53,6 +55,8 @@ class LoginProvider extends ChangeNotifier {
       print(response.body);
 
       if (response.statusCode == 200) {
+        box.write(isllogedIn, "isllogedIn");
+        box.write(role!, "Student");
         var decodedate = jsonDecode(response.body);
         user = LoginModel.fromJson(decodedate);
         print(user!.fullName);
