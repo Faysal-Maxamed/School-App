@@ -10,15 +10,16 @@ const secondaryColor = Color(0xffF95738);
 const isllogedIn = "isllogedIn";
 const role = "role";
 
-getrole(role){
-  switch (role) {
-    case 'admin':
-      return AdminPageScreen();
-    case 'student':
-      return BottomnavigationBar();
-    case 'teacher':
-      return TeacherHomeScreen();
-    default:
-      return LoginScreen();
-  }
-}
+const userInfo = "userInfo";
+// getrole(role){
+//   switch (role) {
+//     case 'admin':
+//       return AdminPageScreen();
+//     case 'student':
+//       return BottomnavigationBar();
+//     case 'teacher':
+//       return TeacherHomeScreen();
+//     default:
+//       return LoginScreen();
+//   }
+// }

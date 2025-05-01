@@ -13,6 +13,9 @@ class LoginProvider extends ChangeNotifier {
   String? _Id;
   String? _password;
   String? _role;
+  LoginProvider() {
+    getUser();
+  }
   LoginModel? user;
   final box = GetStorage();
 
@@ -55,10 +58,9 @@ class LoginProvider extends ChangeNotifier {
       print(response.body);
 
       if (response.statusCode == 200) {
-        box.write(isllogedIn, "isllogedIn");
-        box.write(role!, "Student");
         var decodedate = jsonDecode(response.body);
         user = LoginModel.fromJson(decodedate);
+        saveUSer(user!);
         print(user!.fullName);
         if (role == "Student") {
           Navigator.push(
@@ -98,6 +100,20 @@ class LoginProvider extends ChangeNotifier {
       print(errors);
     } finally {
       issloading = false;
+      notifyListeners();
+    }
+  }
+
+  saveUSer(LoginModel user) {
+    box.write(userInfo, user.toJson());
+    box.write(isllogedIn, "isllogedIn");
+  }
+
+  getUser() {
+    var hasdate = box.hasData(userInfo);
+    var date = box.read(userInfo);
+    if (hasdate == true) {
+      user = LoginModel.fromJson(date);
       notifyListeners();
     }
   }

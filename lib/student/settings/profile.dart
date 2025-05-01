@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_app/auth/service/login_provider.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/constants/themeprovider.dart';
 
@@ -16,7 +17,8 @@ class _ProfilePageState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Themeprovider>(builder: (context, theme, _) {
+    return Consumer2<Themeprovider, LoginProvider>(
+        builder: (context, theme, user, _) {
       return Scaffold(
         appBar: AppBar(
           title: const Text("Profile"),
@@ -31,13 +33,14 @@ class _ProfilePageState extends State<ProfileScreen> {
               backgroundImage: AssetImage('assets/profile.jpg'),
             ),
             const SizedBox(height: 10),
-            const Center(
+            Center(
               child: Text(
-                "Feysal Mohamed",
+                "${user.user!.fullName}",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-            const Center(child: Text("ST001 - Grade 10")),
+            Center(
+                child: Text("${user.user!.id} - ${user.user!.studentClass}")),
             const SizedBox(height: 30),
 
             ListTile(

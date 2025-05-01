@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           secondary: Colors.lightBlueAccent,
         ),
       ),
-      home: hasdate ? getrole(role) : LoginScreen(),
+      home: hasdate ?  BottomnavigationBar(): LoginScreen(),
     );
   }
 }
