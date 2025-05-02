@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:school_app/auth/service/login_provider.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/constants/themeprovider.dart';
+import 'package:school_app/student/settings/student_info.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -47,9 +48,21 @@ class _ProfilePageState extends State<ProfileScreen> {
               leading: const Icon(Icons.person),
               title: const Text("Profile"),
               onTap: () {
-                // Navigate or show dialog
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Help page coming soon!")));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => StudentInfoCard(
+                        fullName: "${user.user!.fullName}",
+                        studentId: "${user.user!.id}",
+                        gender: "${user.user!.gender}",
+                        branch: "${user.user!.branch}",
+                        lastScore: "${user.user!.lastScore[0]}",
+                        place: "${user.user!.place}",
+                        phone: "${user.user!.tell}".toString(),
+                        studentClass: "${user.user!.studentClass}",
+                        role: "${user.user!.role}",
+                      ),
+                    ));
               },
             ),
             ListTile(

@@ -5,11 +5,13 @@ import 'package:school_app/auth/service/login_provider.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/constants/themeprovider.dart';
 import 'package:provider/provider.dart';
+import 'package:school_app/student/exams/controllers/exam_provder.dart';
 import 'package:school_app/student/navbar/bottomnavigation.dart';
 
 void main() async {
   await GetStorage.init();
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_)=>ExamProvider()),
     ChangeNotifierProvider(create: (_) => Themeprovider()),
     ChangeNotifierProvider(create: (_) => LoginProvider())
   ], child: MyApp()));

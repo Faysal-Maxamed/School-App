@@ -9,6 +9,7 @@ const primaryColor = Color(0xff0D3B66);
 const secondaryColor = Color(0xffF95738);
 const isllogedIn = "isllogedIn";
 const role = "role";
+const examEndPoint="http://192.168.56.1:4000/api/school/results/";
 
 const userInfo = "userInfo";
 // getrole(role){
