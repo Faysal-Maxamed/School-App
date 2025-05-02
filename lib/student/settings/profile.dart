@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_app/auth/login/login.dart';
 import 'package:school_app/auth/service/login_provider.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/constants/themeprovider.dart';
@@ -120,8 +121,8 @@ class _ProfilePageState extends State<ProfileScreen> {
               title: const Text("Log Out"),
               onTap: () {
                 // Handle logout
-                Navigator.of(context)
-                    .pushReplacementNamed('/login'); // or your logout logic
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>LoginScreen()))
+                   ; // or your logout logic
               },
             ),
           ],

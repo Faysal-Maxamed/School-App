@@ -8,15 +8,18 @@ import 'package:school_app/student/exams/model/exam_model.dart';
 class ExamProvider extends ChangeNotifier {
   List<StudentResults> Results = [];
 
-  Future<List<StudentResults>> getExamResults(String StudentId) async {
-    var response = await http.get(Uri.parse(examEndPoint + "${StudentId}"));
+  Future<List<StudentResults>> getExamResults(String studentId) async {
+    final response = await http.get(Uri.parse('$examEndPoint$studentId'));
+
     if (response.statusCode == 200) {
-      var date = jsonDecode(response.body);
-      for (var element in date) {
+      final data = jsonDecode(response.body);
+      for (var element in data) {
         Results.add(element);
       }
+      notifyListeners();
+      return Results;
+    } else {
+      throw Exception("Failed to load results");
     }
-    notifyListeners();
-    return Results;
   }
 }

@@ -4,18 +4,23 @@ import 'package:provider/provider.dart';
 import 'package:school_app/auth/service/login_provider.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/student/exams/controllers/exam_provder.dart';
+import 'package:school_app/student/exams/model/exam_model.dart'; 
 
 class StudentExamScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer2<ExamProvider, LoginProvider>(
-        builder: (context, exam, user, _) {
+    return Consumer2<ExamProvider, LoginProvider>(builder: (context, exam, user, _) {
+      final studentresult = exam.Results.firstWhere(
+        (result) => result.studentId?.id == user.user!.id,
+        orElse: () => StudentResults(results: []),
+      );
+
       return DefaultTabController(
         length: 2,
         child: Scaffold(
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -23,7 +28,8 @@ class StudentExamScreen extends StatelessWidget {
                   Card(
                     elevation: 3,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
@@ -33,8 +39,7 @@ class StudentExamScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Average  Score",
-                                    style: TextStyle(fontSize: 16)),
+                                Text("Average  Score", style: TextStyle(fontSize: 16)),
                                 SizedBox(height: 8),
                                 Text(
                                   "74.80",
@@ -77,6 +82,7 @@ class StudentExamScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
+
                   // Top 3 Subjects
                   Text("Top 3 Subject", style: TextStyle(fontSize: 16)),
                   SizedBox(height: 10),
@@ -84,12 +90,12 @@ class StudentExamScreen extends StatelessWidget {
                     children: [
                       subjectTag("Soomaali"),
                       subjectTag("Science"),
-                      subjectTag("Physsics"), // Typo as shown in original
+                      subjectTag("Physsics"),
                     ],
                   ),
                   SizedBox(height: 30),
 
-                  // TabBar for Status & Details
+                  // TabBar
                   TabBar(
                     labelColor: Colors.black,
                     indicatorColor: Colors.blue,
@@ -99,24 +105,12 @@ class StudentExamScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 10),
+
                   // TabBarView content
                   Expanded(
                     child: TabBarView(
                       children: [
-                        // Status tab content
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [],
-                          ),
-                        ),
-                        // Details tab content
+                        // Status tab
                         Container(
                           width: double.infinity,
                           padding: EdgeInsets.all(16),
@@ -127,14 +121,49 @@ class StudentExamScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              detailText("Possition", "11th"),
-                              detailText("Subjects", "12"),
+                              Row(children: [
+                                Text("Name :"),
+                                Text(" ${user.user!.fullName}"),
+                              ]),
+                              SizedBox(height: 15),
+                              Row(children: [
+                                Text("Student Id :"),
+                                Text(" ${user.user!.id}"),
+                              ]),
+                              SizedBox(height: 15),
+                              Row(children: [
+                                Text("Class :"),
+                                Text(" ${user.user!.studentClass}"),
+                              ]),
+                              SizedBox(height: 15),
+                              Row(children: [
+                                Text("Possition :"),
+                                Text(" 13th"),
+                              ]),
+                              SizedBox(height: 15),
+                              Row(children: [
+                                Text("Subjects :"),
+                                Text(" ${user.user!.subjects.length}"),
+                              ]),
                             ],
                           ),
                         ),
+
+                        // Details tab
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: studentresult.results!.isEmpty
+                              ? Text("No exam results available.")
+                              : Text("${studentresult.exam}"),
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -153,13 +182,6 @@ class StudentExamScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(text),
-    );
-  }
-
-  Widget detailText(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Text("$label : $value"),
     );
   }
 }

@@ -28,59 +28,80 @@ class StudentInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LoginProvider>(
-      builder: (context,user,_) {
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: CircleAvatar(
-                    radius: 40,
-                    backgroundColor: Colors.blueAccent,
-                    child: Icon(Icons.person, size: 40, color: Colors.white),
+    return Consumer<LoginProvider>(builder: (context, user, _) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text("Student Profile"),
+          backgroundColor: Colors.blueAccent,
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              // Profile avatar
+              CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.blueAccent,
+                child: Icon(Icons.person, size: 50, color: Colors.white),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                fullName,
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                role,
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+              const SizedBox(height: 20),
+
+              // Card with all information
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      buildTile("Student ID", studentId, Icons.badge),
+                      buildDivider(),
+                      buildTile("Gender", gender, Icons.wc),
+                      buildDivider(),
+                      buildTile("Branch", branch, Icons.account_tree),
+                      buildDivider(),
+                      buildTile("Class", studentClass, Icons.class_),
+                      buildDivider(),
+                      buildTile("Last Score", lastScore, Icons.score),
+                      buildDivider(),
+                      buildTile("Place", place, Icons.place),
+                      buildDivider(),
+                      buildTile("Phone", phone, Icons.phone),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                buildInfo("Full Name", fullName, Icons.person),
-                buildInfo("Student ID", studentId, Icons.badge),
-                buildInfo("Gender", gender, Icons.wc),
-                buildInfo("Branch", branch, Icons.account_tree),
-                buildInfo("Last Score", lastScore, Icons.score),
-                buildInfo("Place", place, Icons.place),
-                buildInfo("Phone", phone, Icons.phone),
-                buildInfo("Class", studentClass, Icons.class_),
-                buildInfo("Role", role, Icons.verified_user),
-              ],
-            ),
+              ),
+            ],
           ),
-        );
-      }
+        ),
+      );
+    });
+  }
+
+  Widget buildTile(String title, String value, IconData icon) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.blueAccent),
+      title: Text(title),
+      subtitle: Text(value, style: const TextStyle(fontSize: 16)),
     );
   }
 
-  Widget buildInfo(String title, String value, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.blueAccent),
-          const SizedBox(width: 10),
-          Text(
-            "$title: ",
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 16),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
+  Widget buildDivider() {
+    return const Divider(
+      thickness: 1,
+      height: 10,
     );
   }
 }
